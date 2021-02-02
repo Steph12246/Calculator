@@ -9,24 +9,25 @@
   <h1> Steph's Calculator </h1>
   <div id="cBody">
     <div id="display"></div>
-    <button id="back" data-key="8"> <img src="backspace.png" height="50px"> </button>
-    <button id="clear">AC</button>
-    <button id="/" class= "op" data-key="47">/</button>
-    <button id="7" class= "num" data-key="55">7</button>
-    <button id="8" class= "num" data-key="56">8</button>
-    <button id="9" class= "num" data-key="57">9</button>
-    <button id="*" class= "op" data-key="42">*</button>
-    <button id="4" class= "num" data-key="52">4</button>
-    <button id="5" class= "num" data-key="53">5</button>
-    <button id="6" class= "num" data-key="54">6</button>
-    <button id="-" class= "op" data-key="45">-</button>
-    <button id="1" class= "num" data-key="49">1</button>
-    <button id="2" class= "num" data-key="50">2</button>
-    <button id="3" class= "num" data-key="51">3</button>
-    <button id="+" class= "op" data-key="43">+</button>
-    <button id="dec" data-key="46">.</button>
-    <button id="0" class= "num" data-key="48">0</button>
-    <button id="eq" data-key="61">=</button>
+    <button id="back" class = "keys" data-action="back" data-key="8">
+      <img src="backspace.png" height="50px"> </button>
+    <button id="clear" class= "keys" data-action="clear" >AC</button>
+    <button id="/" class = "keys op" data-action="divide" data-key="47">/</button>
+    <button id="7" class = "keys num" data-key="55">7</button>
+    <button id="8" class = "keys num" data-key="56">8</button>
+    <button id="9" class = "keys num" data-key="57">9</button>
+    <button id="*" class = "keys op" data-action="multiply" data-key="42">*</button>
+    <button id="4" class = "keys num" data-key="52">4</button>
+    <button id="5" class = "keys num" data-key="53">5</button>
+    <button id="6" class = "keys num" data-key="54">6</button>
+    <button id="-" class = "keys op" data-action="minus" data-key="45">-</button>
+    <button id="1" class = "keys num" data-key="49">1</button>
+    <button id="2" class = "keys num" data-key="50">2</button>
+    <button id="3" class = "keys num" data-key="51">3</button>
+    <button id="+" class = "keys op" data-action="plus" data-key="43">+</button>
+    <button id="dec" class = "keys" data-action="decimal" data-key="46">.</button>
+    <button id="0" class = "keys num" data-key="48">0</button>
+    <button id="eq" class = "keys" data-action="calculate" data-key="61">=</button>
 
   </div>
   <script src= "calculator.js" > </script>
