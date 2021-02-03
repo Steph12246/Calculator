@@ -31,7 +31,7 @@ allKeys.forEach(allKeys => allKeys.addEventListener('click', function(e){
        if ((display.textContent.indexOf('+')> -1)||(display.textContent.indexOf('/^[0-9]/-')> -1)
        || (display.textContent.indexOf('/')> -1) || (display.textContent.indexOf('*')> -1)) {
          console.log('already');
-         b = display.textContent.split('/').pop(); + keyContent;
+         b = display.textContent.split(/[\/\*\+\-]/).pop() + keyContent;
          console.log(b);
          operate(a, operator, b);
          break;
