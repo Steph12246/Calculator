@@ -3,13 +3,18 @@ body {
 }
 h1 {
   margin: auto;
-  padding: 40px;
+  padding: 30px;
   color: #BF0603;
   text-align: center;
   padding-bottom: 60px;
   font-size: 40px;
 }
-
+h2{
+  height: 15px;
+  text-align: center;
+  color: #BF0603;
+  padding-bottom: 15px;
+}
 button {
   height: 100%;
   width: 100%;
