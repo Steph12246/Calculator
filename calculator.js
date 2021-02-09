@@ -4,12 +4,61 @@ const roundingMessage = document.getElementById('rounding');
 let a="";
 let b="";
 let operator="";
+let eqs = "";
+let manyM =""
 
 
+
+window.onload = function(){
+    display.textContent = " 14";
+    rotate()
+}
+function collectData (e){
+  upSide()
+  if (display.textContent === " 14"){
+    display.textContent = "";
+  }
+  // this works kind of... need to access the dataset.key to only allow the numbers and the
+  // buttons to work not having letters
+let data = '';
+if (e.key >= 0 && e.key < 9) {}
+if (e.key === "."){}
+if (e.key === "="){}
+if (e.key === "Backspace"){}
+if (e.key === "+"|| e.key === "/"|| e.key === "*"|| e.key === "-"){
+  console.log('five');
+    data = this.id;
+    display.textContent= display.textContent + data;
+} else {
+    data = e.key;
+    var dataK = document.getElementsByClassName('.keys');
+    console.log(dataK.dataset.key);
+    if (data === $[0-9]){
+    console.log('num');
+    }
+    display.textContent= display.textContent + data;
+}};
 allKeys.forEach(allKeys => allKeys.addEventListener('click', function(e){
+  upSide();
+  if (display.textContent === " 14"){
+  display.textContent= "";
+}
   const action = e.target.dataset.action
   const keyContent = e.target.textContent
   const keySet = e.target.dataset.type
+  if (eqs === "yes" && action === "calculate"){
+    a = display.textContent;
+    operate(a, operator, b);
+    return;
+  }
+  else if (eqs ==="yes" && !action){
+    console.log('refresh');
+    display.textContent = "";
+    eqs = "";
+  }
+  else {
+    eqs = "";
+  }
 if (!action && display.textContent === '0' || !action && display.textContent === ''
 || !action && display.textContent === 'NaN'|| !action && display.textContent === "It's infinite!"){
           display.textContent= allKeys.textContent;
@@ -26,10 +75,31 @@ case 'op':
           if (display.textContent === "It's infinite!"){
             break;
           }
-           if ((display.textContent.indexOf('+')> -1)||(display.textContent.indexOf('/^[0-9]/-')> -1)
+          if (display.textContent.slice(-1)=== "*" || display.textContent.slice(-1)=== "+"
+           || display.textContent.slice(-1)=== "/"|| display.textContent.slice(-1)=== "-"){
+             let preC = display.textContent.charAt(display.textContent.length -2);
+             let before = display.textContent.slice(-1);
+             console.log(before);
+             console.log(preC);
+             if (preC ==="+" || preC ==="-" || preC ==="*"
+             || preC ==="/"){
+               console.log('two in a row');
+               operator = keySet;
+               var strS = display.textContent
+               var newStrS = strS.slice(0, -2)
+               console.log(newStrS);
+               display.textContent = newStrS + keyContent;
+               break;
+             }
+             else{
+             operator = keySet;
+             display.textContent = display.textContent.slice(0, -1) + keyContent;
+             return;
+           }}
+           if ((display.textContent.indexOf('+')> -1)
            || (display.textContent.indexOf('/')> -1) || (display.textContent.indexOf('*')> -1)) {
              console.log('already');
-             b = display.textContent.split(/[\/\*\+\-]/).pop();
+             b = display.textContent.split(/[\/\*\+]/).pop();
              console.log(b);
              operate(a, operator, b);
              if (display.textContent === "It's infinite!"){
@@ -41,6 +111,28 @@ case 'op':
              display.textContent = a + keyContent;
              break;
           }}
+          if (display.textContent.indexOf('-')> -1){
+            console.log('minusss');
+            multipleMinus()
+            console.log(manyM);
+            if (manyM != ""){
+              b= display.textContent.split('-').pop();
+              console.log(b);
+              operate(a, operator, b);
+              manyM = "";
+              display.textContent= display.textContent + keyContent;
+              break;
+            }
+            else {
+               console.log(a);
+              a= display.textContent;
+              console.log('mini');
+              operator = keySet;
+              display.textContent = display.textContent + keyContent;
+              break;
+            }
+            break;
+          }
           else if (display.textContent === ""|| display.textContent === "0"
           || display.textContent === 'NaN'){
               return;
@@ -58,8 +150,6 @@ case 'op':
           }
 
 case 'minus':
-// if there are 2 or more - in the sentence eval.
-// if 2 in a row change to add
           if (display.textContent=== ""){
             display.textContent = keyContent
             break;
@@ -82,20 +172,47 @@ case 'minus':
             operator="minus";
             break;
           }
-          if ((display.textContent.indexOf('+')> -1)||(display.textContent.indexOf('/^[0-9]/-')> -1)
-          || (display.textContent.indexOf('/')> -1) || (display.textContent.indexOf('*')> -1)) {
-          console.log('already');
-          b = display.textContent.split(/[\/\*\+\-]/).pop();
-          operate(a, operator, b);
-          if (display.textContent === "It's infinite!"){
-            return
+          if ((display.textContent.indexOf('+')> -1)|| (display.textContent.indexOf('/')> -1)
+          || (display.textContent.indexOf('*')> -1)) {
+              console.log('already');
+              b = display.textContent.split(/[\/\*\+]/).pop();
+              if (b===""){
+                display.textContent= display.textContent+ keyContent;
+                break;
+              }
+              if (b === "-"){
+                display.textContent= display.textContent.slice(0,-1);
+                break;
+              }
+              else {
+                operate(a, operator, b);
+              if (display.textContent === "It's infinite!"){
+                return;
+              }}}
+          if (display.textContent.indexOf('-')> -1){
+            console.log('min');
+            multipleMinus()
+            console.log(manyM);
+            if (manyM != ""){
+              console.log('manyM');
+              b = display.textContent.split(/[-]/).pop();
+              console.log(a);
+              console.log(operator);
+              console.log(b);
+            operate(a, operator, b);
+            display.textContent = display.textContent + keyContent
+            manyM = ""
+          break;
           }
-          else{
-            operator = 'minus';
-          a = display.textContent;
-          display.textContent = a + keyContent;
+            else {
+              a = display.textContent;
+              operator = 'minus';
+              display.textContent= display.textContent + keyContent;
+              console.log(a);
+              console.log(operator)
+            }
             break;
-          }}
+          }
           else if (display.textContent === ""){
             display.textContent= keyContent;
             break;
@@ -119,7 +236,7 @@ case 'minus':
 case 'decimal':
             let currentNum = display.textContent.split(/[\/\*\+\-]/).pop();
             let previousChar = display.textContent.substring(display.textContent.length-1);
-            if (currentNum.indexOf('.')> -1){
+            if (currentNum.indexOf('.')> -1 || display.textContent === "It's infinite!"){
               return;
             }
             else if (a === "" && display.textContent === "" ){
@@ -134,117 +251,133 @@ case 'decimal':
             display.textContent = display.textContent + keyContent;
                   break;
 case 'calculate':
-// if the last thing is an operator return;
-            if (display.textContent.charAt(display.textContent.length-1)=== "-"||
-             display.textContent.charAt(display.textContent.length-1)=== "+"||
-             display.textContent.charAt(display.textContent.length-1)=== "/" ||
-             display.textContent.charAt(display.textContent.length-1)=== "*"){
+          var prev = display.textContent.charAt(display.textContent.length-1);
+            upSide();
+            console.log('eqs');
+            if(display.textContent === "0.7734" || display.textContent === "14" ||
+             display.textContent ==="5508.14" || display.textContent === "5318008"
+             ||  display.textContent === "58008"){
+                rotate();
+                eqs="yes";
+                break;
+              }
+            if (prev === "-"|| prev === "+"|| prev === "/" || prev === "*"){
               display.textContent = a;
+              console.log(a);
+              console.log('first');
               operator = "";
               b =="";
-              console.log(a)
-              console.log(b)
-              console.log(operator)
               break;
             }
-            if (display.textContent.charAt(display.textContent.length-1)=== "."){
+            if (prev === "."){
               var str =display.textContent;
               display.textContent = str.slice(0, -1);
-              return;
+              console.log('second');
             }
             if (display.textContent === ""|| operator === ""){
               return;
             }
-            else {
-            b = display.textContent.split(/[\/\*\+\-]/).pop()
+            if (display.textContent.includes("+")|| display.textContent.includes("*")||
+          display.textContent.includes("/")){
+            b = display.textContent.split(/[\/\*\+]/).pop()
             operate(a, operator, b);
-            b="";
+            console.log('includes');
+            eqs = "yes";
+            return;
+          }
+          if (display.textContent.includes("-")){
+            console.log('this');
+            multipleMinus();
+            var beforeMinus = +manyM-1;
+            if (manyM != "" && display.textContent[beforeMinus] !== "/"
+            || manyM != "" && display.textContent[beforeMinus] !== "*"){
+              b = display.textContent.split(/[-]/).pop();
+              console.log(b);
+              operate(a, operator, b);
+              eqs= "yes";
+              return;
+            }
+              return;
+            }
+            if (display.textContent.indexOf('-') >0){
+              console.log(display.textContent.indexOf('-'));
+              return;
+            }
+            else {
+            operate(a, operator, b);
+            console.log('back?')
+            eqs = "yes";
+            console.log(a);
+            console.log(b);
+            return;
+          }
                   break;
-                };
 case 'back':
-            roundingMessage.textContent="";
-            console.log('go back');
-            var str = display.textContent
-            var newStr = str.slice(0, -1)
-            var removed = str.charAt(str.length -1);
-            console.log(removed);
-            display.textContent = newStr;
+console.log('go back');
+          var str = display.textContent
+          var newStr = str.slice(0, -1)
+          var removed = str.charAt(str.length -1);
+          roundingMessage.textContent="";
+          display.textContent = newStr;
+            if (removed === "+"||removed === "/"||removed === "*"){
+              operator = "";
+              return;
+            }
+            if (removed === "-"){
+              if (newStr.includes("*")|| newStr.includes("+") || newStr.includes("/")){
+                return;
+              }
+              else if (newStr.includes("-")){
+                multipleMinus()
+                if (manyM != ""){
+                  manyM="";
+                  return;
+                }
+                else {
+                  operator = "";
+                  return;
+                }
+              }
+            }
             if (newStr === ""){
-              a="";
-              operator="";
-              b="";
+              clearComp();
             }
                   break;
 case 'clear':
+          upSide();
             roundingMessage.textContent="";
             display.textContent = "";
-            a="";
-            b="";
-            operator="";
+            clearComp()
                   break;
 default:
                   break;
 }}));
-// add a class to equals so that if anything other then another = is pressed the div resets
-// make it so if you press another operator it works
-// display.textContent = new value
-// remove any newOperators
-
 
 function add (a, b){
-  answer = +a + +b;
-  roundA= Math.round((answer + Number.EPSILON)*10000)/10000;
-  display.textContent = roundA;
-  if (roundA !== answer){
-    roundingMessage.textContent = "rounded to 4 d.p"
-  }
-  else {
-    roundingMessage.textContent="";
-}};
+        answer = +a + +b;
+        rounding(answer);};
+
 function subtract (a, b){
-  answer = a - b;
-  roundA= Math.round((answer + Number.EPSILON)*10000)/10000;
-  display.textContent = roundA;
-  if (roundA !== answer){
-    roundingMessage.textContent = "rounded to 4 d.p"
-  }
-  else {
-    roundingMessage.textContent="";
-}};
+        answer = a - b;
+        rounding(answer);
+        };
+
 function multiply (a,b){
-  answer = a * b;
-  roundA= Math.round((answer + Number.EPSILON)*10000)/10000;
-  display.textContent = roundA;
-  if (roundA !== answer){
-    roundingMessage.textContent = "rounded to 4 d.p"
-  }
-  else {
-    roundingMessage.textContent="";
-}};
+        answer = a * b;
+        rounding(answer);
+};
+
 function divide (a, b){
-  if (b===""){
-    return;
-  }
-if (b == 0){
-  divZero = "It's infinite!"
-  display.textContent = divZero;
-}
-else {
-  answer = a/b;
-  roundA= Math.round((answer + Number.EPSILON)*10000)/10000;
-  display.textContent = roundA;
-  if (roundA !== answer){
-    roundingMessage.textContent = "rounded to 4 d.p"
-  }
-  else {
-    roundingMessage.textContent=""
-}}};
+      if (b == 0){
+        display.textContent = "It's infinite!";
+      }
+      else {
+        answer = a/b;
+        rounding(answer);
+      }};
 
 
 function operate (a, operator, b){
-  console.log(a);
-  console.log(operator);
-  console.log(b);
   switch (operator){
     case 'plus':
       add(a,b);
@@ -263,13 +396,60 @@ function operate (a, operator, b){
       break;
   }
 }
-//get 9x-6 to work
-// and -6-3 to operate with next operator
-//if an operator is pressed straight after an operator change the operator to new one
+function multipleMinus() {
+function getAllIndexes(arr, val){
+  var indexes =[],i =-1;
+  while ((i= arr.indexOf(val, i+1)) != -1){
+    indexes.push(i);
+  }
+  return indexes;
+}
+var indexes = getAllIndexes(display.textContent, "-");
+console.log(indexes);
+manyM = indexes;
+if (indexes[0] === 0){
+  indexes.splice(0,1);
+  console.log(indexes);
+  manyM= indexes;
+}
+}
+
+function clearComp(){
+  a="";
+  operator="";
+  console.log(operator);
+  b="";
+}
+
+function rounding(answer){
+  roundA= Math.round((answer + Number.EPSILON)*10000)/10000;
+  display.textContent = roundA;
+  a = answer;
+  if (roundA !== answer){
+    roundingMessage.textContent = "rounded to 4 d.p"
+  }
+  else {
+    roundingMessage.textContent="";
+}};
+
+function rotate(){
+  display.style.transform = "rotate(180deg)";
+  display.style.borderTopLeftRadius= "0px";
+  display.style.borderBottomRightRadius = "30px";
+  display.style.textAlign = "center";
+}
+function upSide(){
+  display.style.transform = "rotate(0deg)";
+  display.style.borderTopLeftRadius= "30px";
+  display.style.borderBottomRightRadius = "0px";
+  display.style.textAlign = "right";
+}
+
+window.addEventListener('keydown', collectData);
+
+
+
+
 // add a % button
 // add a factoral button! that calculates before pressing enter?
-// after pressing equals the answer should pop up and then clear the screen once another number is pressed
 // get keyboard shortcut to work
-// Get font digital-7 to apear when the numbers are typed in. While display number is
-// equal to 07734, 14, 5508.14, 5318008 rotate the display div and maybe round and
-// unround the css edges

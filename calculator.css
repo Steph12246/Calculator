@@ -47,16 +47,22 @@ button:focus{
 
 }
 
+@font-face{
+  font-family: 'Digital-7';
+  src: url('calculatorFont.ttf');
+}
 #display{
+  font-family: 'Digital-7';
   border: 1px solid black;
   grid-column-start: 1;
   grid-column-end: 4;
   background-color: #BF0603;
   color: #001427;
   border-top-left-radius: 30px;
-  font-size: 50px;
+  font-size: 60px;
   text-align: right;
-  padding: 10px;
+  padding-top: 15px;
+  padding-right: 10px;
 }
 #back{
   width:100%;
