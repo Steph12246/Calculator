@@ -13,31 +13,24 @@ window.onload = function(){
     display.textContent = " 14";
     rotate()
 }
+// I can console.log the one I want but can't get the action for the switch statement below.
 function collectData (e){
   upSide()
   if (display.textContent === " 14"){
     display.textContent = "";
   }
-  // this works kind of... need to access the dataset.key to only allow the numbers and the
-  // buttons to work not having letters
-let data = '';
-if (e.key >= 0 && e.key < 9) {}
-if (e.key === "."){}
-if (e.key === "="){}
-if (e.key === "Backspace"){}
-if (e.key === "+"|| e.key === "/"|| e.key === "*"|| e.key === "-"){
-  console.log('five');
+let action = '';
+if (e.key >= 0 && e.key <= 9) {console.log(e.key)}
+if (e.key === "."){action= 'decimal'; console.log(e.key) }
+if (e.key === "="){action= 'calculate'; console.log(e.key)}
+if (e.key === "Backspace"){action= 'back'; console.log(e.key)}
+if (e.key === "+"|| e.key === "/"|| e.key === "*"){action= 'op';
+  console.log(e.key);
     data = this.id;
-    display.textContent= display.textContent + data;
-} else {
-    data = e.key;
-    var dataK = document.getElementsByClassName('.keys');
-    console.log(dataK.dataset.key);
-    if (data === $[0-9]){
-    console.log('num');
-    }
-    display.textContent= display.textContent + data;
-}};
+    display.textContent= display.textContent + e.key;}
+if ( e.key === "-"){ action= 'minus'; console.log(action)}
+};
+
 allKeys.forEach(allKeys => allKeys.addEventListener('click', function(e){
   upSide();
   if (display.textContent === " 14"){
@@ -52,7 +45,6 @@ allKeys.forEach(allKeys => allKeys.addEventListener('click', function(e){
     return;
   }
   else if (eqs ==="yes" && !action){
-    console.log('refresh');
     display.textContent = "";
     eqs = "";
   }
@@ -79,15 +71,11 @@ case 'op':
            || display.textContent.slice(-1)=== "/"|| display.textContent.slice(-1)=== "-"){
              let preC = display.textContent.charAt(display.textContent.length -2);
              let before = display.textContent.slice(-1);
-             console.log(before);
-             console.log(preC);
              if (preC ==="+" || preC ==="-" || preC ==="*"
              || preC ==="/"){
-               console.log('two in a row');
                operator = keySet;
                var strS = display.textContent
                var newStrS = strS.slice(0, -2)
-               console.log(newStrS);
                display.textContent = newStrS + keyContent;
                break;
              }
@@ -98,35 +86,27 @@ case 'op':
            }}
            if ((display.textContent.indexOf('+')> -1)
            || (display.textContent.indexOf('/')> -1) || (display.textContent.indexOf('*')> -1)) {
-             console.log('already');
              b = display.textContent.split(/[\/\*\+]/).pop();
-             console.log(b);
              operate(a, operator, b);
              if (display.textContent === "It's infinite!"){
                return
              }
              else{operator = keySet;
              a = display.textContent;
-             console.log(a);
              display.textContent = a + keyContent;
              break;
           }}
           if (display.textContent.indexOf('-')> -1){
-            console.log('minusss');
             multipleMinus()
-            console.log(manyM);
             if (manyM != ""){
               b= display.textContent.split('-').pop();
-              console.log(b);
               operate(a, operator, b);
               manyM = "";
               display.textContent= display.textContent + keyContent;
               break;
             }
             else {
-               console.log(a);
               a= display.textContent;
-              console.log('mini');
               operator = keySet;
               display.textContent = display.textContent + keyContent;
               break;
@@ -162,7 +142,6 @@ case 'minus':
             break;
           }
           if (display.textContent === a + "-"){
-            console.log('Yeah!')
             display.textContent = a + "+";
             operator = "plus";
             break;
@@ -174,7 +153,6 @@ case 'minus':
           }
           if ((display.textContent.indexOf('+')> -1)|| (display.textContent.indexOf('/')> -1)
           || (display.textContent.indexOf('*')> -1)) {
-              console.log('already');
               b = display.textContent.split(/[\/\*\+]/).pop();
               if (b===""){
                 display.textContent= display.textContent+ keyContent;
@@ -190,15 +168,9 @@ case 'minus':
                 return;
               }}}
           if (display.textContent.indexOf('-')> -1){
-            console.log('min');
             multipleMinus()
-            console.log(manyM);
             if (manyM != ""){
-              console.log('manyM');
               b = display.textContent.split(/[-]/).pop();
-              console.log(a);
-              console.log(operator);
-              console.log(b);
             operate(a, operator, b);
             display.textContent = display.textContent + keyContent
             manyM = ""
@@ -208,8 +180,6 @@ case 'minus':
               a = display.textContent;
               operator = 'minus';
               display.textContent= display.textContent + keyContent;
-              console.log(a);
-              console.log(operator)
             }
             break;
           }
@@ -253,7 +223,6 @@ case 'decimal':
 case 'calculate':
           var prev = display.textContent.charAt(display.textContent.length-1);
             upSide();
-            console.log('eqs');
             if(display.textContent === "0.7734" || display.textContent === "14" ||
              display.textContent ==="5508.14" || display.textContent === "5318008"
              ||  display.textContent === "58008"){
@@ -263,8 +232,6 @@ case 'calculate':
               }
             if (prev === "-"|| prev === "+"|| prev === "/" || prev === "*"){
               display.textContent = a;
-              console.log(a);
-              console.log('first');
               operator = "";
               b =="";
               break;
@@ -272,7 +239,6 @@ case 'calculate':
             if (prev === "."){
               var str =display.textContent;
               display.textContent = str.slice(0, -1);
-              console.log('second');
             }
             if (display.textContent === ""|| operator === ""){
               return;
@@ -281,18 +247,15 @@ case 'calculate':
           display.textContent.includes("/")){
             b = display.textContent.split(/[\/\*\+]/).pop()
             operate(a, operator, b);
-            console.log('includes');
             eqs = "yes";
             return;
           }
           if (display.textContent.includes("-")){
-            console.log('this');
             multipleMinus();
             var beforeMinus = +manyM-1;
             if (manyM != "" && display.textContent[beforeMinus] !== "/"
             || manyM != "" && display.textContent[beforeMinus] !== "*"){
               b = display.textContent.split(/[-]/).pop();
-              console.log(b);
               operate(a, operator, b);
               eqs= "yes";
               return;
@@ -300,20 +263,15 @@ case 'calculate':
               return;
             }
             if (display.textContent.indexOf('-') >0){
-              console.log(display.textContent.indexOf('-'));
               return;
             }
             else {
             operate(a, operator, b);
-            console.log('back?')
             eqs = "yes";
-            console.log(a);
-            console.log(b);
             return;
           }
                   break;
 case 'back':
-console.log('go back');
           var str = display.textContent
           var newStr = str.slice(0, -1)
           var removed = str.charAt(str.length -1);
@@ -405,11 +363,9 @@ function getAllIndexes(arr, val){
   return indexes;
 }
 var indexes = getAllIndexes(display.textContent, "-");
-console.log(indexes);
 manyM = indexes;
 if (indexes[0] === 0){
   indexes.splice(0,1);
-  console.log(indexes);
   manyM= indexes;
 }
 }
@@ -417,7 +373,6 @@ if (indexes[0] === 0){
 function clearComp(){
   a="";
   operator="";
-  console.log(operator);
   b="";
 }
 
@@ -446,10 +401,3 @@ function upSide(){
 }
 
 window.addEventListener('keydown', collectData);
-
-
-
-
-// add a % button
-// add a factoral button! that calculates before pressing enter?
-// get keyboard shortcut to work
