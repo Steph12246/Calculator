@@ -47,6 +47,8 @@ allKeys.forEach(allKeys => allKeys.addEventListener('click', function(e){
   else if (eqs ==="yes" && !action){
     display.textContent = "";
     eqs = "";
+    console.log('roundme');
+    roundingMessage.textContent = "";
   }
   else {
     eqs = "";

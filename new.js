@@ -1,13 +1,11 @@
 var allKeys = document.querySelectorAll('.keys');
 var screenValue = display.textContent;
-const blankDisplay = (screenValue === ''
-|| screenValue === 'NaN'|| screenValue === "It's infinite!");
 var a="";
 var b="";
 var operator="";
 var previousCharacter = screenValue.slice(-1)
 const containsOperator = (display.textContent.indexOf('+')> -1)||
-(display.textContent.indexOf('/')> -1) || (display.textContent.indexOf('*')> -1))
+(display.textContent.indexOf('/')> -1) || (display.textContent.indexOf('*')> -1)
 var findB = display.textContent.split(/[\/\*\+]/).pop();
 
 document.body.addEventListener("keyup", (event) =>
@@ -25,6 +23,7 @@ allKeys.forEach( key => {
 
 const keyType = (value)=> {
   if(/[0-9]/.test(value)){
+    console.log('digit');
     return `digit`;
   }
   if (value === '.'){
@@ -42,13 +41,14 @@ const keyType = (value)=> {
   if (value==='c'|| value==='AC'){
     return `clear`;
   }
-  if (value ==='Backspace'|| dataset.action ==='back'){
+  if (value ==='Backspace'|| value ==='back'){
     return `back`;
   }
 }
 
 function whatToDoWithKeyValue(keyType, value){
-  if (blankDisplay){
+  if ((screenValue === ''|| screenValue === 'NaN'||
+  screenValue === "It's infinite!")){
     clearComponents()
   }
   switch(keyType){
@@ -56,6 +56,7 @@ function whatToDoWithKeyValue(keyType, value){
     digits(value);
     break;
     case 'decimal':
+    decimals(value);
     break;
     case 'operator':
     break;
@@ -70,13 +71,14 @@ function whatToDoWithKeyValue(keyType, value){
 function digits(value){
  if (screenValue === '0'){
    clearComponents();
-   screenValue = value;
+   return value;
  }
  else{
-   screenValue = screenValue + value;
+   return screenValue + value;
  }
 }
-function decimal (value){
+
+function decimals (value){
   let currentNum = screenValue.split(/[\/\*\+\-]/).pop();
   let previousChar = screenValue.substring(screenValue.length-1);
   if (currentNum.indexOf('.')> -1){
@@ -99,7 +101,8 @@ function clearComponents (){
 
 function add (a, b){
         answer = +a + +b;
-        roundAnswer(answer);};
+        roundAnswer(answer);
+      };
 
 function subtract (a, b){
         answer = a - b;
@@ -149,4 +152,4 @@ function operate (a, operator, b){
     }
     else {
       roundingMessage.textContent="";
-  }};
+  }}}
